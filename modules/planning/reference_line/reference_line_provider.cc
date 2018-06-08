@@ -303,12 +303,17 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
     const auto &lane_id = path_pair.first;
     const auto &path_points = path_pair.second.path().path_point();
     auto lane_ptr = hdmap->GetLaneById(hdmap::MakeMapId(lane_id));
+    bool change_lane_flay = false;
+    if(lane_ptr->lane().right_neighbor_forward_lane_id_size() > 0 || 
+       lane_ptr->lane().left_neighbor_forward_lane_id_size() > 0){
+        change_lane_flay = true;
+    }
     RouteSegments segment;
     segment.emplace_back(lane_ptr, 0.0, lane_ptr->total_length());
     segment.SetCanExit(true);
     segment.SetId(lane_id);
     segment.SetNextAction(routing::FORWARD);
-    segment.SetIsOnSegment(true);
+    segment.SetIsOnSegment(!change_lane_flay);
     segment.SetStopForDestination(false);
     segment.SetPreviousAction(routing::FORWARD);
     segments->emplace_back(segment);
