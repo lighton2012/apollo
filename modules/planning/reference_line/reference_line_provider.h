@@ -37,6 +37,7 @@
 #include "modules/map/relative_map/proto/navigation.pb.h"
 #include "modules/planning/proto/planning_config.pb.h"
 
+#include "modules/map/hdmap/hdmap.h"
 #include "modules/common/util/factory.h"
 #include "modules/common/util/util.h"
 #include "modules/map/pnc_map/pnc_map.h"
@@ -142,7 +143,8 @@ class ReferenceLineProvider {
       const relative_map::MapMsg& relative_map,
       std::list<ReferenceLine>* reference_line,
       std::list<hdmap::RouteSegments>* segments);
-
+ private:
+  bool IsSatisfiedChangeLaneCondition(const hdmap::Lane lane);
  private:
   bool is_initialized_ = false;
   bool is_stop_ = false;
