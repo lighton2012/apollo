@@ -45,8 +45,8 @@ class LocalPath:
 
     def resample(self):
         pass
-        
-#合并local path和 points ，问题points来自于哪里？
+
+#合并local path和 points ，将local path points合并到points
     def merge(self, local_path, weight):
         for i in range(len(self.points)):
             y = self.points[i][1]

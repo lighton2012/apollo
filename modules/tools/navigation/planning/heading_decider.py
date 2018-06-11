@@ -22,7 +22,7 @@ import numpy.polynomial.polynomial as poly
 class HeadingDecider:
     def __init__(self):
         self.mobileye_pb = None
-
+#向下取整
     def get_path(self, x, y, path_length):
         ind = int(math.floor((abs(x[0]) * 100.0) / 1) + 1)
         newx = [0]
