@@ -18,7 +18,7 @@
 
 import math
 
-
+#更新lanemarker信息
 class LaneMarkerCorrector:
     def __init__(self, left_marker, right_marker):
         self.left_marker = left_marker

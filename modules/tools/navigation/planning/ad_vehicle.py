@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ###############################################################################
-
+#初始化车辆信息结构体，主要包括模型参数信息，以及位置、速度、前向角等信息
 class ADVehicle:
     def __init__(self):
         self._chassis_pb = None
@@ -28,18 +28,20 @@ class ADVehicle:
         self.x = None
         self.y = None
         self.heading = None
-
+#底盘信息更新到当前类
     def update_chassis(self, chassis_pb):
         self._chassis_pb = chassis_pb
         self.speed_mps = self._chassis_pb.speed_mps
-
+#定位信息更新到当前类
     def update_localization(self, localization_pb):
         self._localization_pb = localization_pb
         self.x = self._localization_pb.pose.position.x
         self.y = self._localization_pb.pose.position.y
         self.heading = self._localization_pb.pose.heading
-
+#两个信息更新成功，ready
     def is_ready(self):
         if self._chassis_pb is None or self._localization_pb is None:
             return False
         return True
+
+

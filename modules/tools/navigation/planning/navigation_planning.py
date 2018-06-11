@@ -42,18 +42,25 @@ from ad_vehicle import ADVehicle
 
 gflags.DEFINE_integer('max_cruise_speed', 20,
                       'max speed for cruising in meter per second')
+#最大巡航速度，72km/h
 gflags.DEFINE_boolean('enable_follow', False,
                       'enable follow function.')
+#使能跟车
 gflags.DEFINE_boolean('enable_nudge', True,
                       'enable nudge function.')
+#使能？？？
 gflags.DEFINE_boolean('enable_change_lane', False,
                       'enable change lane function.')
+#使能变道
 gflags.DEFINE_boolean('enable_routing_aid', True,
                       'enable planning leveraging routing information.')
+#使能规划过程更改routing信息
 gflags.DEFINE_string('navigation_planning_node_name', 'navigation_planning',
                      'node name for navigation planning.')
+#导航模式节点
 gflags.DEFINE_string('navigation_planning_topic', '/apollo/planning',
                      'navigation planning publish topic.')
+#使能导航规划
 
 planning_pub = None
 log_file = None

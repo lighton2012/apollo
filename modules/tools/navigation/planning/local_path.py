@@ -19,12 +19,12 @@
 class LocalPath:
     def __init__(self, points):
         self.points = points
-
+#提取第一个y
     def init_y(self):
         if len(self.points) > 0:
             return self.points[0][1]
         return None
-
+#获取points中的 x y
     def get_xy(self):
         x = []
         y = []
@@ -32,10 +32,10 @@ class LocalPath:
             x.append(p[0])
             y.append(p[1])
         return x, y
-
+#范围
     def range(self):
         return len(self.points) - 1
-
+#dist累加y的大小
     def shift(self, dist):
         for i in range(len(self.points)):
             self.points[i][1] += dist
@@ -45,7 +45,8 @@ class LocalPath:
 
     def resample(self):
         pass
-
+        
+#合并local path和 points ，问题points来自于哪里？
     def merge(self, local_path, weight):
         for i in range(len(self.points)):
             y = self.points[i][1]

@@ -23,6 +23,7 @@ from numpy.polynomial.polynomial import polyval
 
 
 class PathDecider:
+    #路径初始化
     def __init__(self, enable_routing_aid, enable_nudge, enable_change_lane):
         self.MINIMUM_PATH_LENGTH = 5
         self.MAX_LAT_CHANGE = 0.1
@@ -32,17 +33,18 @@ class PathDecider:
         self.enable_nudge = enable_nudge
         self.enable_change_lane = enable_change_lane
         self.path_range = 10
-
+    #从local mobileye中获取path
     def get_path_by_lm(self, mobileye, adv):
         return self.ref.get_ref_path_by_lm(mobileye, adv)
-
+    #从local mobileye routing中获取path,加入routing信息
     def get_path_by_lmr(self, perception, routing, adv):
         path_x, path_y, path_len = self.ref.get_ref_path_by_lmr(perception,
                                                                 routing,
                                                                 adv)
+
         if self.enable_nudge:
             path_x, path_y, path_len = self.nudge_process(path_x, path_y,
-                                                          path_len)
+                                                          path_len)#推进处理
         return path_x, path_y, path_len
 
     def nudge_process(self, final_path, obstacle_decider):
