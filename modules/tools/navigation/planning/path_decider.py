@@ -48,7 +48,7 @@ class PathDecider:
         return path_x, path_y, path_len
 
     def nudge_process(self, final_path, obstacle_decider):
-        obstacle_decider.process_path_obstacle(final_path)
+        obstacle_decider.process_path_obstacle(final_path)#加入障碍物后的path
         left_dist = 999
         right_dist = 999
         for obs_id, lat_dist in obstacle_decider.obstacle_lat_dist.items():
@@ -58,13 +58,13 @@ class PathDecider:
                 right_dist = lat_dist
         print left_dist, right_dist
         return final_path
-
+    #获取路径点,如果使能routing则加入routing信息
     def get(self, perception, routing, adv):
         if self.enable_routing_aid:
             return self.get_path_by_lmr(perception, routing, adv)
         else:
             return self.get_path_by_lm(perception, adv)
-
+    #获取path，如果使能routin则使用routing信息
     def get_path(self, perception, routing, adv, obstacle_decider):
         self.path_range = self._get_path_range(adv.speed_mps)
         if self.enable_routing_aid and adv.is_ready():
@@ -121,9 +121,9 @@ class PathDecider:
                                                       self.path_range)
         init_y = path.init_y()
         smoothed_init_y = self._smooth_init_y(init_y)
-        path.shift(smoothed_init_y - init_y)
+        path.shift(smoothed_init_y - init_y)#将获得的path进行smooth处理
         return path
-
+    #path范围，主要是length
     def _get_path_range(self, speed_mps):
         path_length = self.MINIMUM_PATH_LENGTH
         current_speed = speed_mps
@@ -131,7 +131,7 @@ class PathDecider:
             if path_length < current_speed * 2:
                 path_length = math.ceil(current_speed * 2)
         return int(path_length)
-
+    #平滑处理，两边移动不大于0.2m
     def _smooth_init_y(self, init_y):
         if init_y > 0.2:
             init_y = 0.2
@@ -214,8 +214,8 @@ if __name__ == "__main__":
                      mobileye_pb2.Mobileye,
                      mobileye_callback)
 
-    fig = plt.figure()
-    ax = plt.subplot2grid((1, 1), (0, 0), rowspan=1, colspan=1)
+    fig = plt.figure()#创建图像
+    ax = plt.subplot2grid((1, 1), (0, 0), rowspan=1, colspan=1)#构建子图
     left_lm, = ax.plot([], [], 'b-')
     right_lm, = ax.plot([], [], 'b-')
     middle_lm, = ax.plot([], [], 'k-')
@@ -226,3 +226,4 @@ if __name__ == "__main__":
     ax.set_ylim([-5, 5])
     # ax2.axis('equal')
     plt.show()
+    #绘图

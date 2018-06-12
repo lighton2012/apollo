@@ -47,9 +47,9 @@ class ObstacleDecider:
         self.obstacle_lat_dist = {}
 
         path = []
-        self.mobileye.process_obstacles()
+        self.mobileye.process_obstacles()   #感知obstacles处理，得到障碍物位置、宽度等信息
         for i in range(len(path_x)):
-            path.append((path_x[i], path_y[i]))
+            path.append((path_x[i], path_y[i]))#得到path包含point点的链表
         line = LineString(path)
 
         for obs_id, obstacle in self.mobileye.obstacles.items():
@@ -69,10 +69,10 @@ class ObstacleDecider:
                 if d > 0:
                     dist *= -1
                 self.obstacle_lat_dist[obstacle.obstacle_id] = dist
-
+                #得到障碍物和path关系
         self.path_obstacle_processed = True
         # print self.obstacle_lat_dist
-
+    #获取可向左、向右推行距离，原则不超过车道边界线
     def get_adv_left_right_nudgable_dist(self, fpath):
         left_nudgable = 0
         right_nudgable = 0
@@ -93,7 +93,7 @@ class ObstacleDecider:
                              - self.right_edge_to_center
 
         return left_nudgable, -1 * right_nudgable
-
+    #
     def get_nudge_distance(self, left_nudgable, right_nudgable):
         left_nudge = None
         right_nudge = None
@@ -121,7 +121,7 @@ class ObstacleDecider:
         if left_nudge is not None and right_nudge is not None:
             return 0
         if left_nudge is not None:
-            if left_nudgable < left_nudgable:
+            if left_nudgable < left_nudgable:#有问题？
                 return left_nudgable
             else:
                 return left_nudge
@@ -161,11 +161,11 @@ if __name__ == "__main__":
     def mobileye_callback(mobileye_pb):
         global fpath
         mobileye.update(mobileye_pb)
-        mobileye.process_lane_markers()
+        mobileye.process_lane_markers()#处理lane maker
         fpath = path_decider.get_path(mobileye, routing, ad_vehicle,
                                       obs_decider)
-        obs_decider.update(mobileye)
-        obs_decider.process_path_obstacle(fpath)
+        obs_decider.update(mobileye)#更新障碍物信息
+        obs_decider.process_path_obstacle(fpath)#处理障碍物与path状态,加入障碍物信息
         print "nudge distance = ", obs_decider.get_nudge_distance()
 
 
@@ -181,7 +181,7 @@ if __name__ == "__main__":
         obstacles_points.set_ydata(y)
 
         if fpath is not None:
-            px, py = fpath.get_xy()
+            px, py = fpath.get_xy()#包含有障碍物信息的fpath
             path_line.set_xdata(px)
             path_line.set_ydata(py)
 
@@ -205,7 +205,7 @@ if __name__ == "__main__":
     rospy.Subscriber('/apollo/sensor/mobileye',
                      mobileye_pb2.Mobileye,
                      mobileye_callback)
-
+    #绘图
     fig = plt.figure()
     ax = plt.subplot2grid((1, 1), (0, 0), rowspan=1, colspan=1)
     obstacles_points, = ax.plot([], [], 'ro')

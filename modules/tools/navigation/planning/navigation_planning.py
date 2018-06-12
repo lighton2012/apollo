@@ -104,7 +104,7 @@ def mobileye_callback2(mobileye_pb):
     adc_trajectory = traj_generator.generate(path_x, path_y, final_path_length,
                                              speed,
                                              start_timestamp=start_timestamp)
-    planning_pub.publish(adc_trajectory)
+    planning_pub.publish(adc_trajectory)#发布轨迹
     log_file.write("duration: " + str(time.time() - start_timestamp) + "\n")
 
 
@@ -116,7 +116,7 @@ def mobileye_callback(mobileye_pb):
     mobileye_provider.update(mobileye_pb)
     mobileye_provider.process_obstacles()
     obs_decider.update(mobileye_provider)
-
+    #routing path 或者 lane marker path
     path = path_decider.get_path(mobileye_provider, routing_provider, adv,
                                  obs_decider)
 

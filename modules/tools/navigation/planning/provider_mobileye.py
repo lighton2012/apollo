@@ -73,9 +73,9 @@ class MobileyeProvider:
         self.obstacles_processed = False
 
     def update(self, mobileye_pb):
-        self.lane_marker_processed = False
-        self.history_processed = False
-        self.obstacles_processed = False
+        self.lane_marker_processed = False #lane marker
+        self.history_processed = False     #pridiction
+        self.obstacles_processed = False   #obstacles
 
         self.mobileye_pb = mobileye_pb
         self.process_lane_markers()
@@ -156,7 +156,7 @@ class MobileyeProvider:
         self.last_heading = heading
 
         self.history_processed = True
-
+    #感知obstacles处理，得到障碍物位置、宽度等信息
     def process_obstacles(self):
         if self.obstacles_processed:
             return

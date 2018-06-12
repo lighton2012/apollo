@@ -35,7 +35,7 @@ def get_theta(point, point_base):
     return math.atan2(1, 0) - math.atan2(point[0] - point_base[0],
                                          point[1] - point_base[1])
 
-
+#轨迹生成
 class TrajectoryGenerator:
     def __init__(self):
         self.mobileye_pb = None
@@ -62,7 +62,7 @@ class TrajectoryGenerator:
             traj_point.path_point.y = y
             if x > 0:
                 dist = euclidean_distance((x, y), (x - 1, path_y[x - 1]))
-                s += dist
+                s += dist#s为累加距离
                 relative_time += dist / speed
 
             traj_point.path_point.theta = get_theta(

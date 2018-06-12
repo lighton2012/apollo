@@ -27,12 +27,12 @@ class SpeedDecider:
         obstacle_speed = None
         obstacles = mobileye_provider.obstacles
         for obs in obstacles:
-            if obs.lane == 1:
+            if obs.lane == 1:#障碍物在当前车道
                 if (obs.x + obs.length / 2.0) < obstacle_closest_lon:
                     obstacle_closest_lon = obs.x + obs.length / 2.0
                     obstacle_speed = obs.rel_speed + \
                                      chassis_provider.get_speed_mps()
-
+        #求障碍物位置和移动速度，
         new_path_length = path_length
         if obstacle_closest_lon < new_path_length:
             new_path_length = obstacle_closest_lon
@@ -40,7 +40,7 @@ class SpeedDecider:
             return self.CRUISE_SPEED, new_path_length
         else:
             return obstacle_speed, new_path_length
-
+       #根据障碍物移动速度决定车速度，基本原则保证车子速度低于障碍物
     def get(self, mobileye_provider, chassis_provider, path_length):
         if self.enable_follow:
             return self.get_target_speed_and_path_length(mobileye_provider,

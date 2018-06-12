@@ -24,7 +24,7 @@ class ReferencePath:
         self.MINIMUM_PATH_LENGTH = 5
         self.MAX_LAT_CHANGE = 0.1
         self.init_y_last = None
-
+    #求path length
     def get_path_length(self, speed_mps):
         path_length = self.MINIMUM_PATH_LENGTH
         current_speed = speed_mps
@@ -32,7 +32,7 @@ class ReferencePath:
             if path_length < current_speed * 2:
                 path_length = math.ceil(current_speed * 2)
         return path_length
-
+    
     def get_ref_path_init_y(self, init_y_perception):
         if self.init_y_last is None:
             return 0

@@ -22,7 +22,7 @@ import numpy.polynomial.polynomial as poly
 class HeadingDecider:
     def __init__(self):
         self.mobileye_pb = None
-#向下取整
+#math.floor(x)向下取整
     def get_path(self, x, y, path_length):
         ind = int(math.floor((abs(x[0]) * 100.0) / 1) + 1)
         newx = [0]
@@ -37,6 +37,7 @@ class HeadingDecider:
             newx.append(x[-1])
             newy.append(y[-1])
             w.append(w[-1] - 10)
+        #曲线拟合
         coefs = poly.polyfit(newy, newx, 4, w=w)  # x = f(y)
         nx = poly.polyval(y, coefs)
         return nx, y
